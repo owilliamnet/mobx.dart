@@ -9,6 +9,7 @@ part of 'mobx_generator_example.dart';
 class _$MyStore with MyStore {
   /// accessor
   Observable<String> _nickname;
+  Observable<String> get $nickname => _nickname;
 
   @override
   set nickname(String nickname) => _nickname.value = nickname;
@@ -16,6 +17,7 @@ class _$MyStore with MyStore {
   String get nickname => _nickname.value;
 
   Observable<int> _age;
+  Observable<int> get $age => _age;
 
   @override
   set age(int age) => _age.value = age;
@@ -23,6 +25,7 @@ class _$MyStore with MyStore {
   int get age => _age.value;
 
   Observable<bool> _fromEarth;
+  Observable<bool> get $fromEarth => _fromEarth;
 
   @override
   set fromEarth(bool fromEarth) => _fromEarth.value = fromEarth;
@@ -30,6 +33,7 @@ class _$MyStore with MyStore {
   bool get fromEarth => _fromEarth.value;
 
   Observable<Gender> _gender;
+  Observable<Gender> get $gender => _gender;
 
   @override
   set gender(Gender gender) => _gender.value = gender;
@@ -37,6 +41,7 @@ class _$MyStore with MyStore {
   Gender get gender => _gender.value;
 
   ObservableList<String> _favoriteColorList;
+  ObservableList<String> get $favoriteColorList => _favoriteColorList;
 
   @override
   set favoriteColorList(List<String> favoriteColorList) {

@@ -9,6 +9,7 @@ part of 'mobx_generator_simplest_example.dart';
 class _$MySimplestStore with MySimplestStore {
   /// accessor
   Observable<String> _hi;
+  Observable<String> get $hi => _hi;
 
   @override
   set hi(String hi) => _hi.value = hi;

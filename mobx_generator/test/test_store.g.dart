@@ -9,6 +9,7 @@ part of 'test_store.dart';
 class _$TestStore with TestStore {
   /// accessor
   Observable<String> _stringField;
+  Observable<String> get $stringField => _stringField;
 
   @override
   set stringField(String stringField) => _stringField.value = stringField;
@@ -16,6 +17,7 @@ class _$TestStore with TestStore {
   String get stringField => _stringField.value;
 
   Observable<int> _intField;
+  Observable<int> get $intField => _intField;
 
   @override
   set intField(int intField) => _intField.value = intField;
@@ -23,6 +25,7 @@ class _$TestStore with TestStore {
   int get intField => _intField.value;
 
   Observable<bool> _boolField;
+  Observable<bool> get $boolField => _boolField;
 
   @override
   set boolField(bool boolField) => _boolField.value = boolField;
@@ -30,6 +33,7 @@ class _$TestStore with TestStore {
   bool get boolField => _boolField.value;
 
   Observable<double> _doubleField;
+  Observable<double> get $doubleField => _doubleField;
 
   @override
   set doubleField(double doubleField) => _doubleField.value = doubleField;
