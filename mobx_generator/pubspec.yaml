@@ -1,0 +1,19 @@
+name: mobx_generator
+description: Annotation build tool for MobX
+version: 0.0.1
+homepage:
+author:
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dependencies:
+  mobx: ^0.0.18
+#  path: ^1.4.1
+
+dev_dependencies:
+  test: ^1.0.0
+
+dependency_overrides:
+  mobx:
+    path: ../mobx
