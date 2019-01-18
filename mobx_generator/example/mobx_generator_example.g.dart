@@ -64,6 +64,13 @@ class _$MyStore with MyStore {
     _gender = Observable(super.gender);
     _favoriteColorList = ObservableList.of(super.favoriteColorList ?? []);
 
+    /// set null to user-defined default value
+    super.nickname = null;
+    super.age = null;
+    super.fromEarth = null;
+    super.gender = null;
+    super.favoriteColorList = null;
+
     /// computed
     _isUnderAge = Computed<bool>(() => super.isUnderAge);
     _prefixedFavoriteColorList =

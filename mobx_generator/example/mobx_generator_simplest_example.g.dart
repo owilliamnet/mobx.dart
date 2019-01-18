@@ -24,6 +24,9 @@ class _$MySimplestStore with MySimplestStore {
     /// accessor
     _hi = Observable(super.hi);
 
+    /// set null to user-defined default value
+    super.hi = null;
+
     /// computed
     _greeting = Computed<String>(() => super.greeting);
   }

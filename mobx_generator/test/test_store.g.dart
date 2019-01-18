@@ -57,6 +57,12 @@ class _$TestStore with TestStore {
     _boolField = Observable(super.boolField);
     _doubleField = Observable(super.doubleField);
 
+    /// set null to user-defined default value
+    super.stringField = null;
+    super.intField = null;
+    super.boolField = null;
+    super.doubleField = null;
+
     /// computed
     _myStringField = Computed<String>(() => super.myStringField);
     _myIntField = Computed<int>(() => super.myIntField);
