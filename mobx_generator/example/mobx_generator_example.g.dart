@@ -9,6 +9,9 @@ part of 'mobx_generator_example.dart';
 class _$MyStore with MyStore {
   /// accessor
   Observable<String> _nickname;
+
+  /// PLEASE NOTE: this is not duplicated code,
+  /// we need let user know '$field' always can access underlay Observable(List)
   Observable<String> get $nickname => _nickname;
 
   @override
@@ -17,6 +20,9 @@ class _$MyStore with MyStore {
   String get nickname => _nickname.value;
 
   Observable<int> _age;
+
+  /// PLEASE NOTE: this is not duplicated code,
+  /// we need let user know '$field' always can access underlay Observable(List)
   Observable<int> get $age => _age;
 
   @override
@@ -25,6 +31,9 @@ class _$MyStore with MyStore {
   int get age => _age.value;
 
   Observable<bool> _fromEarth;
+
+  /// PLEASE NOTE: this is not duplicated code,
+  /// we need let user know '$field' always can access underlay Observable(List)
   Observable<bool> get $fromEarth => _fromEarth;
 
   @override
@@ -33,6 +42,9 @@ class _$MyStore with MyStore {
   bool get fromEarth => _fromEarth.value;
 
   Observable<Gender> _gender;
+
+  /// PLEASE NOTE: this is not duplicated code,
+  /// we need let user know '$field' always can access underlay Observable(List)
   Observable<Gender> get $gender => _gender;
 
   @override
@@ -54,9 +66,12 @@ class _$MyStore with MyStore {
 
   /// computed
   Computed<bool> _isUnderAge;
+  Computed<bool> get $isUnderAge => _isUnderAge;
   bool get isUnderAge => _isUnderAge.value;
 
   Computed<List<String>> _prefixedFavoriteColorList;
+  Computed<List<String>> get $prefixedFavoriteColorList =>
+      _prefixedFavoriteColorList;
   List<String> get prefixedFavoriteColorList =>
       _prefixedFavoriteColorList.value;
 

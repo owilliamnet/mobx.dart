@@ -9,6 +9,9 @@ part of 'test_store.dart';
 class _$TestStore with TestStore {
   /// accessor
   Observable<String> _stringField;
+
+  /// PLEASE NOTE: this is not duplicated code,
+  /// we need let user know '$field' always can access underlay Observable(List)
   Observable<String> get $stringField => _stringField;
 
   @override
@@ -17,6 +20,9 @@ class _$TestStore with TestStore {
   String get stringField => _stringField.value;
 
   Observable<int> _intField;
+
+  /// PLEASE NOTE: this is not duplicated code,
+  /// we need let user know '$field' always can access underlay Observable(List)
   Observable<int> get $intField => _intField;
 
   @override
@@ -25,6 +31,9 @@ class _$TestStore with TestStore {
   int get intField => _intField.value;
 
   Observable<bool> _boolField;
+
+  /// PLEASE NOTE: this is not duplicated code,
+  /// we need let user know '$field' always can access underlay Observable(List)
   Observable<bool> get $boolField => _boolField;
 
   @override
@@ -33,6 +42,9 @@ class _$TestStore with TestStore {
   bool get boolField => _boolField.value;
 
   Observable<double> _doubleField;
+
+  /// PLEASE NOTE: this is not duplicated code,
+  /// we need let user know '$field' always can access underlay Observable(List)
   Observable<double> get $doubleField => _doubleField;
 
   @override
@@ -42,15 +54,19 @@ class _$TestStore with TestStore {
 
   /// computed
   Computed<String> _myStringField;
+  Computed<String> get $myStringField => _myStringField;
   String get myStringField => _myStringField.value;
 
   Computed<int> _myIntField;
+  Computed<int> get $myIntField => _myIntField;
   int get myIntField => _myIntField.value;
 
   Computed<bool> _myBoolField;
+  Computed<bool> get $myBoolField => _myBoolField;
   bool get myBoolField => _myBoolField.value;
 
   Computed<double> _myDoubleField;
+  Computed<double> get $myDoubleField => _myDoubleField;
   double get myDoubleField => _myDoubleField.value;
 
   /// constructor

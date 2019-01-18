@@ -9,6 +9,9 @@ part of 'mobx_generator_simplest_example.dart';
 class _$MySimplestStore with MySimplestStore {
   /// accessor
   Observable<String> _hi;
+
+  /// PLEASE NOTE: this is not duplicated code,
+  /// we need let user know '$field' always can access underlay Observable(List)
   Observable<String> get $hi => _hi;
 
   @override
@@ -18,6 +21,7 @@ class _$MySimplestStore with MySimplestStore {
 
   /// computed
   Computed<String> _greeting;
+  Computed<String> get $greeting => _greeting;
   String get greeting => _greeting.value;
 
   /// constructor
