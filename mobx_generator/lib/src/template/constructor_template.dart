@@ -10,6 +10,11 @@ const constructor_template = '''
       {{/isList}}
     {{/accessorList}}
     
+    /// set null to user-defined default value
+    {{#accessorList}}
+    super.{{{fieldName}}} = null;
+    {{/accessorList}}
+    
     /// computed
     {{#computedList}}
     _{{{fieldName}}} = Computed<{{{genericType}}}>(() => super.{{{fieldName}}});
