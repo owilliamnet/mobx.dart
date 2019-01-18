@@ -14,6 +14,8 @@ const accessor_template = '''
 {{^isList}}
   Observable<{{{genericType}}}> _{{{fieldName}}};
   
+  /// PLEASE NOTE: this is not duplicated code, 
+  /// we need let user know '\$field' always can access underlay Observable(List)
   Observable<{{{genericType}}}> get \${{{fieldName}}} => _{{{fieldName}}};
 
   @override
