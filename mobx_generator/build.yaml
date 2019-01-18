@@ -1,0 +1,16 @@
+# Read about `build.yaml` at https://pub.dartlang.org/packages/build_config
+targets:
+  $default:
+    builders:
+      mobx_generator|mobx_generator_builder:
+        enabled: true
+        generate_for:
+          exclude: ['**.g.dart']
+builders:
+  mobx_generator_builder:
+    import: 'package:mobx_generator/builder.dart'
+    builder_factories: ['mobxAnnotationBuilder']
+    build_extensions: { '.dart': ['.mobx.g.part'] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]
