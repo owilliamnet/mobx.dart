@@ -138,33 +138,49 @@ void main() {
 
   group('AsyncActionMethods', () {
     test('message returns singular message with one field added', () {
-      final fields = AsyncActionMethods()..addIf(true, 'testMethod');
-      expect(
-          fields.message, 'Remove async modifier from the method "testMethod"');
+      final fields = AsyncGeneratorActionMethods()..addIf(true, 'testMethod');
+      expect(fields.message,
+          'Replace async* modifier with async from the method "testMethod"');
     });
 
     test('message returns plural message with multiple fields added', () {
-      final fields = AsyncActionMethods()
+      final fields = AsyncGeneratorActionMethods()
         ..addIf(true, 'testMethod1')
         ..addIf(true, 'testMethod2');
       expect(fields.message,
-          'Remove async modifier from methods "testMethod1" and "testMethod2"');
+          'Replace async* modifier with async from methods "testMethod1" and "testMethod2"');
     });
   });
 
-  group('StaticActionMethods', () {
+  group('InvalidStaticMethods', () {
     test('message returns singular message with one field added', () {
-      final fields = StaticActionMethods()..addIf(true, 'testMethod');
+      final fields = InvalidStaticMethods()..addIf(true, 'testMethod');
       expect(fields.message,
           'Remove static modifier from the method "testMethod"');
     });
 
     test('message returns plural message with multiple fields added', () {
-      final fields = StaticActionMethods()
+      final fields = InvalidStaticMethods()
         ..addIf(true, 'testMethod1')
         ..addIf(true, 'testMethod2');
       expect(fields.message,
           'Remove static modifier from methods "testMethod1" and "testMethod2"');
+    });
+  });
+
+  group('NonAsyncMethods', () {
+    test('message returns singular message with one field added', () {
+      final fields = NonAsyncMethods()..addIf(true, 'testMethod');
+      expect(fields.message,
+          'Return a Future or a Stream from the method "testMethod"');
+    });
+
+    test('message returns plural message with multiple fields added', () {
+      final fields = NonAsyncMethods()
+        ..addIf(true, 'testMethod1')
+        ..addIf(true, 'testMethod2');
+      expect(fields.message,
+          'Return a Future or a Stream from methods "testMethod1" and "testMethod2"');
     });
   });
 }

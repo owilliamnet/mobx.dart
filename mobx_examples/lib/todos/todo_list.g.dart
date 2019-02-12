@@ -1,42 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'todos.dart';
+part of 'todo_list.dart';
 
 // **************************************************************************
 // StoreGenerator
 // **************************************************************************
 
-mixin _$Todo on TodoBase, Store {
-  final _$descriptionAtom = Atom(name: 'TodoBase.description');
+// ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies
 
-  @override
-  String get description {
-    _$descriptionAtom.reportObserved();
-    return super.description;
-  }
-
-  @override
-  set description(String value) {
-    super.description = value;
-    _$descriptionAtom.reportChanged();
-  }
-
-  final _$doneAtom = Atom(name: 'TodoBase.done');
-
-  @override
-  bool get done {
-    _$doneAtom.reportObserved();
-    return super.done;
-  }
-
-  @override
-  set done(bool value) {
-    super.done = value;
-    _$doneAtom.reportChanged();
-  }
-}
-
-mixin _$TodoList on TodoListBase, Store {
+mixin _$TodoList on _TodoList, Store {
   Computed<ObservableList<Todo>> _$pendingTodosComputed;
 
   @override
@@ -73,8 +45,20 @@ mixin _$TodoList on TodoListBase, Store {
   ObservableList<Todo> get visibleTodos => (_$visibleTodosComputed ??=
           Computed<ObservableList<Todo>>(() => super.visibleTodos))
       .value;
+  Computed<bool> _$canRemoveAllCompletedComputed;
 
-  final _$todosAtom = Atom(name: 'TodoListBase.todos');
+  @override
+  bool get canRemoveAllCompleted => (_$canRemoveAllCompletedComputed ??=
+          Computed<bool>(() => super.canRemoveAllCompleted))
+      .value;
+  Computed<bool> _$canMarkAllCompletedComputed;
+
+  @override
+  bool get canMarkAllCompleted => (_$canMarkAllCompletedComputed ??=
+          Computed<bool>(() => super.canMarkAllCompleted))
+      .value;
+
+  final _$todosAtom = Atom(name: '_TodoList.todos');
 
   @override
   ObservableList<Todo> get todos {
@@ -84,11 +68,12 @@ mixin _$TodoList on TodoListBase, Store {
 
   @override
   set todos(ObservableList<Todo> value) {
+    mainContext.checkIfStateModificationsAreAllowed(_$todosAtom);
     super.todos = value;
     _$todosAtom.reportChanged();
   }
 
-  final _$filterAtom = Atom(name: 'TodoListBase.filter');
+  final _$filterAtom = Atom(name: '_TodoList.filter');
 
   @override
   VisibilityFilter get filter {
@@ -98,12 +83,12 @@ mixin _$TodoList on TodoListBase, Store {
 
   @override
   set filter(VisibilityFilter value) {
+    mainContext.checkIfStateModificationsAreAllowed(_$filterAtom);
     super.filter = value;
     _$filterAtom.reportChanged();
   }
 
-  final _$currentDescriptionAtom =
-      Atom(name: 'TodoListBase.currentDescription');
+  final _$currentDescriptionAtom = Atom(name: '_TodoList.currentDescription');
 
   @override
   String get currentDescription {
@@ -113,69 +98,70 @@ mixin _$TodoList on TodoListBase, Store {
 
   @override
   set currentDescription(String value) {
+    mainContext.checkIfStateModificationsAreAllowed(_$currentDescriptionAtom);
     super.currentDescription = value;
     _$currentDescriptionAtom.reportChanged();
   }
 
-  final _$TodoListBaseActionController = ActionController(name: 'TodoListBase');
+  final _$_TodoListActionController = ActionController(name: '_TodoList');
 
   @override
   void addTodo(String description) {
-    final _$prevDerivation = _$TodoListBaseActionController.startAction();
+    final _$actionInfo = _$_TodoListActionController.startAction();
     try {
       return super.addTodo(description);
     } finally {
-      _$TodoListBaseActionController.endAction(_$prevDerivation);
+      _$_TodoListActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void removeTodo(Todo todo) {
-    final _$prevDerivation = _$TodoListBaseActionController.startAction();
+    final _$actionInfo = _$_TodoListActionController.startAction();
     try {
       return super.removeTodo(todo);
     } finally {
-      _$TodoListBaseActionController.endAction(_$prevDerivation);
+      _$_TodoListActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void changeDescription(String description) {
-    final _$prevDerivation = _$TodoListBaseActionController.startAction();
+    final _$actionInfo = _$_TodoListActionController.startAction();
     try {
       return super.changeDescription(description);
     } finally {
-      _$TodoListBaseActionController.endAction(_$prevDerivation);
+      _$_TodoListActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void changeFilter(VisibilityFilter filter) {
-    final _$prevDerivation = _$TodoListBaseActionController.startAction();
+    final _$actionInfo = _$_TodoListActionController.startAction();
     try {
       return super.changeFilter(filter);
     } finally {
-      _$TodoListBaseActionController.endAction(_$prevDerivation);
+      _$_TodoListActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void removeCompleted() {
-    final _$prevDerivation = _$TodoListBaseActionController.startAction();
+    final _$actionInfo = _$_TodoListActionController.startAction();
     try {
       return super.removeCompleted();
     } finally {
-      _$TodoListBaseActionController.endAction(_$prevDerivation);
+      _$_TodoListActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void markAllAsCompleted() {
-    final _$prevDerivation = _$TodoListBaseActionController.startAction();
+    final _$actionInfo = _$_TodoListActionController.startAction();
     try {
       return super.markAllAsCompleted();
     } finally {
-      _$TodoListBaseActionController.endAction(_$prevDerivation);
+      _$_TodoListActionController.endAction(_$actionInfo);
     }
   }
 }

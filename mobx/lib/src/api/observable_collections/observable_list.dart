@@ -1,9 +1,4 @@
-import 'dart:collection';
-import 'dart:math';
-
-import 'package:meta/meta.dart';
-import 'package:mobx/mobx.dart';
-import 'package:mobx/src/core.dart';
+part of '../observable_collections.dart';
 
 Atom _listAtom<T>(ReactiveContext context) {
   final ctx = context ?? mainContext;
@@ -29,7 +24,7 @@ class ObservableList<T>
         // ignore: prefer_mixin
         ListMixin<T>
     implements
-        Listenable<ListChangeNotification<T>> {
+        Listenable<ListChange<T>> {
   ObservableList({ReactiveContext context})
       : this._wrap(context, _listAtom<T>(context), []);
 
@@ -44,9 +39,9 @@ class ObservableList<T>
   final Atom _atom;
   final List<T> _list;
 
-  Listeners<ListChangeNotification<T>> _listenersField;
+  Listeners<ListChange<T>> _listenersField;
 
-  Listeners<ListChangeNotification<T>> get _listeners =>
+  Listeners<ListChange<T>> get _listeners =>
       _listenersField ??= Listeners(_context);
 
   String get name => _atom.name;
@@ -59,6 +54,8 @@ class ObservableList<T>
 
   @override
   set length(int value) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.length = value;
     _notifyListUpdate(0, null, null);
   }
@@ -78,6 +75,8 @@ class ObservableList<T>
 
   @override
   void operator []=(int index, T value) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     final oldValue = _list[index];
 
     if (oldValue != value) {
@@ -88,12 +87,16 @@ class ObservableList<T>
 
   @override
   void add(T element) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.add(element);
     _notifyListUpdate(_list.length, [element], null);
   }
 
   @override
   void addAll(Iterable<T> iterable) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.addAll(iterable);
     _notifyListUpdate(0, iterable.toList(growable: false), null);
   }
@@ -129,11 +132,7 @@ class ObservableList<T>
   }
 
   @override
-  Map<int, T> asMap() {
-    // TODO(katis): the map should be observable, with the same atom
-    _atom.reportObserved();
-    return _list.asMap();
-  }
+  Map<int, T> asMap() => ObservableMap._wrap(_context, _list.asMap(), _atom);
 
   @override
   List<R> cast<R>() => ObservableList._wrap(_context, _atom, _list.cast<R>());
@@ -146,6 +145,8 @@ class ObservableList<T>
 
   @override
   set first(T value) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     final oldValue = _list.first;
 
     _list.first = value;
@@ -154,6 +155,8 @@ class ObservableList<T>
 
   @override
   void clear() {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     final oldItems = _list.toList(growable: false);
     _list.clear();
     _notifyListUpdate(0, null, oldItems);
@@ -161,24 +164,32 @@ class ObservableList<T>
 
   @override
   void fillRange(int start, int end, [T fill]) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.fillRange(start, end, fill);
     _notifyListUpdate(start, null, null);
   }
 
   @override
   void insert(int index, T element) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.insert(index, element);
     _notifyListUpdate(index, [element], null);
   }
 
   @override
   void insertAll(int index, Iterable<T> iterable) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.insertAll(index, iterable);
     _notifyListUpdate(index, iterable.toList(growable: false), null);
   }
 
   @override
   bool remove(Object element) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     final index = _list.indexOf(element);
     final didRemove = _list.remove(element);
 
@@ -191,6 +202,8 @@ class ObservableList<T>
 
   @override
   T removeAt(int index) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     final value = _list.removeAt(index);
     _notifyListUpdate(index, null, value == null ? null : [value]);
     return value;
@@ -198,6 +211,8 @@ class ObservableList<T>
 
   @override
   T removeLast() {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     final value = _list.removeLast();
 
     // Index is _list.length as it points to the index before the last element is removed
@@ -208,6 +223,8 @@ class ObservableList<T>
 
   @override
   void removeRange(int start, int end) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     final removedItems = _list.sublist(start, end);
     _list.removeRange(start, end);
     _notifyListUpdate(start, null, removedItems);
@@ -215,6 +232,8 @@ class ObservableList<T>
 
   @override
   void removeWhere(bool Function(T element) test) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     final removedItems = _list.where(test).toList(growable: false);
     _list.removeWhere(test);
     _notifyListUpdate(0, null, removedItems);
@@ -222,12 +241,16 @@ class ObservableList<T>
 
   @override
   void replaceRange(int start, int end, Iterable<T> newContents) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.replaceRange(start, end, newContents);
     _notifyListUpdate(start, null, null);
   }
 
   @override
   void retainWhere(bool Function(T element) test) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     final removedItems = _list.where((_) => !test(_)).toList(growable: false);
 
     _list.retainWhere(test);
@@ -236,33 +259,40 @@ class ObservableList<T>
 
   @override
   void setAll(int index, Iterable<T> iterable) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.setAll(index, iterable);
     _notifyListUpdate(index, null, null);
   }
 
   @override
   void setRange(int start, int end, Iterable<T> iterable, [int skipCount = 0]) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.setRange(start, end, iterable, skipCount);
     _notifyListUpdate(start, null, null);
   }
 
   @override
   void shuffle([Random random]) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.shuffle(random);
     _notifyListUpdate(0, null, null);
   }
 
   @override
   void sort([int Function(T a, T b) compare]) {
+    _context.checkIfStateModificationsAreAllowed(_atom);
+
     _list.sort(compare);
     _notifyListUpdate(0, null, null);
   }
 
   @override
-  Dispose observe(Listener<ListChangeNotification<T>> listener,
-      {bool fireImmediately}) {
+  Dispose observe(Listener<ListChange<T>> listener, {bool fireImmediately}) {
     if (fireImmediately == true) {
-      final change = ListChangeNotification(
+      final change = ListChange(
           object: this,
           index: 0,
           type: OperationType.add,
@@ -276,7 +306,7 @@ class ObservableList<T>
   void _notifyChildUpdate(int index, T newValue, T oldValue) {
     _atom.reportChanged();
 
-    final change = ListChangeNotification(
+    final change = ListChange(
         index: index,
         newValue: newValue,
         oldValue: oldValue,
@@ -289,7 +319,7 @@ class ObservableList<T>
   void _notifyListUpdate(int index, List<T> added, List<T> removed) {
     _atom.reportChanged();
 
-    final change = ListChangeNotification(
+    final change = ListChange(
         index: index,
         added: added,
         removed: removed,
@@ -305,10 +335,10 @@ class ObservableList<T>
 }
 
 typedef ListChangeListener<TNotification> = void Function(
-    ListChangeNotification<TNotification>);
+    ListChange<TNotification>);
 
-class ListChangeNotification<T> {
-  ListChangeNotification(
+class ListChange<T> {
+  ListChange(
       {this.index,
       this.type,
       this.newValue,

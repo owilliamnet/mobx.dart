@@ -1,24 +1,13 @@
 import 'package:mobx/mobx.dart';
+import 'package:mobx_examples/todos/todo.dart';
 
-part 'todos.g.dart';
-
-class Todo = TodoBase with _$Todo;
-
-abstract class TodoBase implements Store {
-  TodoBase(this.description);
-
-  @observable
-  String description = '';
-
-  @observable
-  bool done = false;
-}
+part 'todo_list.g.dart';
 
 enum VisibilityFilter { all, pending, completed }
 
-class TodoList = TodoListBase with _$TodoList;
+class TodoList = _TodoList with _$TodoList;
 
-abstract class TodoListBase implements Store {
+abstract class _TodoList implements Store {
   @observable
   ObservableList<Todo> todos = ObservableList<Todo>();
 
@@ -43,8 +32,14 @@ abstract class TodoListBase implements Store {
   bool get hasPendingTodos => pendingTodos.isNotEmpty;
 
   @computed
-  String get itemsDescription =>
-      '${pendingTodos.length} pending, ${completedTodos.length} completed';
+  String get itemsDescription {
+    if (todos.isEmpty) {
+      return "There are no Todos here. Why don't you add one?.";
+    }
+
+    final suffix = pendingTodos.length == 1 ? 'todo' : 'todos';
+    return '${pendingTodos.length} pending $suffix, ${completedTodos.length} completed';
+  }
 
   @computed
   ObservableList<Todo> get visibleTodos {
@@ -57,6 +52,14 @@ abstract class TodoListBase implements Store {
         return todos;
     }
   }
+
+  @computed
+  bool get canRemoveAllCompleted =>
+      hasCompletedTodos && filter != VisibilityFilter.pending;
+
+  @computed
+  bool get canMarkAllCompleted =>
+      hasPendingTodos && filter != VisibilityFilter.completed;
 
   @action
   void addTodo(String description) {

@@ -33,6 +33,16 @@ abstract class UserBase implements Store {
     if (firstName != null) this.firstName = firstName;
     if (lastName != null) this.lastName = firstName;
   }
+
+  @observable
+  Future<String> foobar() async {
+    return 'foobar';
+  }
+
+  @observable
+  Stream<T> loadStuff<T>(String arg1, {T value}) async* {
+    yield value;
+  }
 }
 """;
 
@@ -54,6 +64,7 @@ mixin _\$User on UserBase, Store {
 
   @override
   set firstName(String value) {
+    mainContext.checkIfStateModificationsAreAllowed(_\$firstNameAtom);
     super.firstName = value;
     _\$firstNameAtom.reportChanged();
   }
@@ -68,19 +79,32 @@ mixin _\$User on UserBase, Store {
 
   @override
   set lastName(String value) {
+    mainContext.checkIfStateModificationsAreAllowed(_\$lastNameAtom);
     super.lastName = value;
     _\$lastNameAtom.reportChanged();
+  }
+
+  @override
+  ObservableFuture<String> foobar() {
+    final _\$future = super.foobar();
+    return ObservableFuture<String>(_\$future);
+  }
+
+  @override
+  ObservableStream<T> loadStuff<T>(String arg1, {T value}) {
+    final _\$stream = super.loadStuff<T>(arg1, value: value);
+    return ObservableStream<T>(_\$stream);
   }
 
   final _\$UserBaseActionController = ActionController(name: 'UserBase');
 
   @override
   void updateNames({String firstName, String lastName}) {
-    final _\$prevDerivation = _\$UserBaseActionController.startAction();
+    final _\$actionInfo = _\$UserBaseActionController.startAction();
     try {
       return super.updateNames(firstName: firstName, lastName: lastName);
     } finally {
-      _\$UserBaseActionController.endAction(_\$prevDerivation);
+      _\$UserBaseActionController.endAction(_\$actionInfo);
     }
   }
 }
@@ -120,10 +144,12 @@ abstract class UserBase implements Store {
   }
 
   @action
-  Future updateUserFromDb() async { }
-
-  @action
   static UserBase getUser(int id) async {}
+
+  @observable
+  String nonAsyncObservableMethod() {
+    return 'nonAsyncObservableMethod';
+  }
 }
 """;
 
@@ -132,7 +158,7 @@ Could not make class "User" observable. Changes needed:
   1. Remove static modifier from the field "foobar"
   2. Remove static modifier from the method "getUser"
   3. Remove final modifier from fields "id" and "firstName"
-  4. Remove async modifier from methods "updateUserFromDb" and "getUser\"""";
+  4. Return a Future or a Stream from the method "nonAsyncObservableMethod\"""";
 
 void main() {
   group('generator', () {
